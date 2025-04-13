@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerBot - Shape Your Future</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>👋 Welcome to CareerBot!</h1>
+            <p>Let's shape your future together</p>
+        </header>
+
+        <div class="features-container">
+            <h2>🔍 What would you like help with?</h2>
+            <div class="features">
+                {% for key, value in features.items() %}
+                <div class="feature-card" data-feature="{{ key }}">
+                    <div class="feature-icon">
+                        {% if key == "1" %}🚀
+                        {% elif key == "2" %}📝
+                        {% elif key == "3" %}📊
+                        {% elif key == "4" %}🎓
+                        {% elif key == "5" %}🗣️
+                        {% endif %}
+                    </div>
+                    <div class="feature-text">{{ value }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="content-area">
+            <!-- Feature 1: Career path suggestions -->
+            <div class="feature-content" id="feature-1">
+                <h3>Career Path Suggestions</h3>
+                <div class="input-group">
+                    <label for="interest">What are your interests or strengths?</label>
+                    <input type="text" id="interest" placeholder="e.g., coding, design, analytics">
+                    <button id="get-careers">Get Suggestions</button>
+                </div>
+                <div class="result-box" id="career-results">
+                    <h4>🔍 Based on your interest, here are some roles to explore:</h4>
+                    <ul class="suggestions-list"></ul>
+                    <button id="get-ai-advice" class="secondary-button">Get AI Advice</button>
+                    <div class="ai-advice"></div>
+                </div>
+                
+                
+                <!-- Chat interface for continuous conversation -->
+                <div class="chat-container" style="display:none;" id="chat-feature-1">
+                    <button class="clear-chat danger-button" data-feature="1"><i class="fa fa-trash"></i> Clear Chat</button>
+                    <div class="chat-messages" id="chat-messages-1"></div>
+                    <div class="chat-input-area">
+                        <input type="text" id="chat-input-1" placeholder="Ask more about career paths...">
+                        <button id="chat-send-1">Send</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2: Resume/CV feedback -->
+            <div class="feature-content" id="feature-2">
+                <h3>Resume/CV Feedback</h3>
+                <div class="input-group">
+                    <label for="resume">Paste your resume text or upload a file:</label>
+                    <textarea id="resume" placeholder="Paste your resume here..."></textarea>
+                    <div class="file-upload">
+                        <label for="resume-file" class="file-label">Upload Resume</label>
+                        <input type="file" id="resume-file" accept=".txt,.doc,.docx,.pdf">
+                        <span id="file-name">No file selected</span>
+                    </div>
+                    <button id="get-resume-feedback">Get Feedback</button>
+                </div>
+                <div class="result-box" id="resume-results">
+                    <h4>✍️ Resume Feedback:</h4>
+                    <div class="feedback-text"></div>
+                </div>
+                
+                <!-- Chat interface for continuous conversation -->
+                <div class="chat-container" style="display:none;" id="chat-feature-2">
+                    <button class="clear-chat danger-button" data-feature="2"><i class="fa fa-trash"></i> Clear Chat</button>
+                    <div class="chat-messages" id="chat-messages-2"></div>
+                    <div class="chat-input-area">
+                        <input type="text" id="chat-input-2" placeholder="Ask more about your resume...">
+                        <button id="chat-send-2">Send</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3: Job market insights -->
+            <div class="feature-content" id="feature-3">
+                <h3>Job Market Insights</h3>
+                <div class="input-group">
+                    <label for="market-topic">What job market topic are you curious about?</label>
+                    <input type="text" id="market-topic" placeholder="e.g., tech trends, remote jobs">
+                    <button id="get-market-insights">Get Insights</button>
+                </div>
+                <div class="result-box" id="market-results">
+                    <h4>📈 Market Insight:</h4>
+                    <div class="insights-text"></div>
+                </div>
+                
+                <!-- Chat interface for continuous conversation -->
+                <div class="chat-container" style="display:none;" id="chat-feature-3">
+                    <button class="clear-chat danger-button" data-feature="3"><i class="fa fa-trash"></i> Clear Chat</button>
+                    <div class="chat-messages" id="chat-messages-3"></div>
+                    <div class="chat-input-area">
+                        <input type="text" id="chat-input-3" placeholder="Ask more about job market...">
+                        <button id="chat-send-3">Send</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 4: College/major advice -->
+            <div class="feature-content" id="feature-4">
+                <h3>College/Major Advice</h3>
+                <div class="input-group">
+                    <label for="major">What majors are you considering or already studying?</label>
+                    <input type="text" id="major" placeholder="e.g., Computer Science, Psychology">
+                    <button id="get-college-advice">Get Advice</button>
+                </div>
+                <div class="result-box" id="college-results">
+                    <h4>🎓 Advice:</h4>
+                    <div class="college-advice-text"></div>
+                </div>
+                
+                <!-- Chat interface for continuous conversation -->
+                <div class="chat-container" style="display:none;" id="chat-feature-4">
+                    <button class="clear-chat danger-button" data-feature="4"><i class="fa fa-trash"></i> Clear Chat</button>
+                    <div class="chat-messages" id="chat-messages-4"></div>
+                    <div class="chat-input-area">
+                        <input type="text" id="chat-input-4" placeholder="Ask more about college majors...">
+                        <button id="chat-send-4">Send</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 5: Interview preparation tips -->
+            <div class="feature-content" id="feature-5">
+                <h3>Interview Preparation Tips</h3>
+                <div class="input-group">
+                    <label for="role">What role are you preparing for?</label>
+                    <input type="text" id="role" placeholder="e.g., Software Engineer, Marketing Manager">
+                    <button id="get-interview-tips">Get Tips</button>
+                </div>
+                <div class="result-box" id="interview-results">
+                    <h4>🗣️ Interview Tips:</h4>
+                    <div class="interview-tips-text"></div>
+                </div>
+                
+                <!-- Chat interface for continuous conversation -->
+                <div class="chat-container" style="display:none;" id="chat-feature-5">
+                    <button class="clear-chat danger-button" data-feature="5"><i class="fa fa-trash"></i> Clear Chat</button>
+                    <div class="chat-messages" id="chat-messages-5"></div>
+                    <div class="chat-input-area">
+                        <input type="text" id="chat-input-5" placeholder="Ask more about interview prep...">
+                        <button id="chat-send-5">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>CareerBot - Helping you shape your professional future 🚀</p>
+        </footer>
+    </div>
+
+    <script>
+       $(document).ready(function() {
+    // Hide all feature content initially
+    $('.feature-content').hide();
+
+    // Function to render chat messages
+    function renderChatMessages(featureId, chatHistory) {
+        const chatMessagesContainer = $(`#chat-messages-${featureId}`);
+        chatMessagesContainer.empty();
+        
+        if (chatHistory && chatHistory.length > 0) {
+            chatHistory.forEach(message => {
+                const messageClass = message.role === 'user' ? 'user-message' : 'assistant-message';
+                let formattedContent = message.content;
+                
+                // Format assistant messages
+                if (message.role === 'assistant') {
+                    formattedContent = formatAIResponse(formattedContent, featureId);
+                }
+                
+                const messageHtml = `
+                    <div class="chat-message ${messageClass}">
+                        ${formattedContent}
+                        <span class="message-timestamp">${message.timestamp}</span>
+                    </div>
+                `;
+                chatMessagesContainer.append(messageHtml);
+            });
+            
+            // Scroll to the bottom
+            chatMessagesContainer.scrollTop(chatMessagesContainer[0].scrollHeight);
+        }
+    }
+
+    // Function to format AI responses based on feature type
+    function formatAIResponse(responseText, featureId) {
+        // Simple check to avoid double formatting
+        if (responseText.includes('<strong>') || responseText.includes('<ul>') || responseText.includes('<ol>')) {
+            return responseText;
+        }
+        
+        switch(featureId) {
+            case '1': // Career path suggestions
+                return formatCareerPathResponse(responseText);
+            case '2': // Resume/CV feedback
+                return formatResumeFeedbackResponse(responseText);
+            case '3': // Job market insights
+                return formatMarketInsightsResponse(responseText);
+            case '4': // College/major advice
+                return formatCollegeAdviceResponse(responseText);
+            case '5': // Interview preparation tips
+                return formatInterviewTipsResponse(responseText);
+            default:
+                return responseText;
+        }
+    }
+
+  // Format Career Path Suggestions (Feature 1)
+function formatCareerPathResponse(text) {
+    // Handle simple chat responses without structure
+    if (!text.includes('Top 5 Recommended Careers') && 
+        !text.includes('Key Skills Needed') &&
+        !text.includes('Education Requirements')) {
+        return text;
+    }
+    
+    // Create HTML structure
+    let formattedHtml = '<div class="response-container">';
+    
+    // Process Top 5 Recommended Careers section
+    if (text.includes('Top 5 Recommended Careers:')) {
+        let careersSection = text.split('Top 5 Recommended Careers:')[1].split('Key Skills Needed:')[0];
+        formattedHtml += '<div class="response-section">';
+        formattedHtml += '<strong>Top 5 Recommended Careers:</strong>';
+        formattedHtml += '<ul>';
+        
+        // Split career items
+        let careers = careersSection.split(/[\n-]/).filter(item => item.trim().length > 0);
+        careers.forEach(career => {
+            formattedHtml += `<li>${career.trim()}</li>`;
+        });
+        
+        formattedHtml += '</ul></div>';
+    }
+    
+    // Process Key Skills Needed section
+    if (text.includes('Key Skills Needed:')) {
+        let skillsSection = '';
+        if (text.includes('Education Requirements:')) {
+            skillsSection = text.split('Key Skills Needed:')[1].split('Education Requirements:')[0];
+        } else {
+            skillsSection = text.split('Key Skills Needed:')[1].split('Quick Starting Tips:')[0];
+        }
+        
+        formattedHtml += '<div class="response-section">';
+        formattedHtml += '<strong>Key Skills Needed:</strong>';
+        formattedHtml += '<ul>';
+        
+        // Split skills items
+        let skills = skillsSection.split(/[\n-]/).filter(item => item.trim().length > 0);
+        skills.forEach(skill => {
+            formattedHtml += `<li>${skill.trim()}</li>`;
+        });
+        
+        formattedHtml += '</ul></div>';
+    }
+    
+    // Process Education Requirements section
+    if (text.includes('Education Requirements:')) {
+        let eduSection = text.split('Education Requirements:')[1].split('Quick Starting Tips:')[0];
+        formattedHtml += '<div class="response-section">';
+        formattedHtml += '<strong>Education Requirements:</strong>';
+        formattedHtml += `<p>${eduSection.trim()}</p>`;
+        formattedHtml += '</div>';
+    }
+    
+    // Process Quick Starting Tips section
+    if (text.includes('Quick Starting Tips:')) {
+        let tipsSection = text.split('Quick Starting Tips:')[1];
+        formattedHtml += '<div class="response-section">';
+        formattedHtml += '<strong>Quick Starting Tips:</strong>';
+        formattedHtml += '<ul>';
+        
+        // Split tips items
+        let tips = tipsSection.split(/[\n-]/).filter(item => item.trim().length > 0);
+        tips.forEach(tip => {
+            formattedHtml += `<li>${tip.trim()}</li>`;
+        });
+        
+        formattedHtml += '</ul></div>';
+    }
+    
+    formattedHtml += '</div>';
+    
+    return formattedHtml;
+}
+
+    // Format Resume Feedback (Feature 2)
+    function formatResumeFeedbackResponse(text) {
+        // Handle simple chat responses without structure
+        if (!text.includes('Strengths') && !text.includes('Areas to Improve') && !text.includes('ATS Score')) {
+            return text;
+        }
+        
+        // Format numbered sections
+        text = text.replace(/1\.\s*Strengths/g, '<strong>1. Strengths</strong>');
+        text = text.replace(/2\.\s*Areas to Improve/g, '<strong>2. Areas to Improve</strong>');
+        text = text.replace(/3\.\s*ATS Score:/g, '<strong>3. ATS Score:</strong>');
+        text = text.replace(/4\.\s*(.+)/g, '<strong>4. $1</strong>');
+        
+        // Add bullet points to strengths and areas to improve
+        const sections = text.split('<strong>');
+        let formattedHtml = '';
+        
+        for (let i = 0; i < sections.length; i++) {
+            if (sections[i].trim() === '') continue;
+            
+            if (i > 0) {
+                formattedHtml += '<div class="response-section"><strong>' + sections[i];
+                
+                // Add bullet points to Strengths and Areas to Improve
+                if (sections[i].includes('1. Strengths') || sections[i].includes('2. Areas to Improve')) {
+                    // Get content after the header
+                    let sectionContent = sections[i].split('</strong>')[1];
+                    let endOfSection = sectionContent.indexOf('<strong>');
+                    
+                    if (endOfSection !== -1) {
+                        sectionContent = sectionContent.substring(0, endOfSection);
+                    }
+                    
+                    // Convert bullet points or hyphen points to HTML list
+                    let bulletPoints = sectionContent.split(/[\n•\-]/).filter(item => item.trim().length > 0);
+                    
+                    // Create HTML bullet list
+                    let bulletListHtml = '</strong><ul>';
+                    bulletPoints.forEach(point => {
+                        bulletListHtml += `<li>${point.trim()}</li>`;
+                    });
+                    bulletListHtml += '</ul>';
+                    
+                    // Replace content with formatted HTML
+                    if (endOfSection !== -1) {
+                        formattedHtml = formattedHtml.replace(sectionContent, bulletListHtml + '<strong>');
+                    } else {
+                        formattedHtml = formattedHtml.replace(sectionContent, bulletListHtml);
+                    }
+                }
+                
+                if (!sections[i].includes('1. Strengths') && !sections[i].includes('2. Areas to Improve')) {
+                    formattedHtml += '</div>';
+                }
+            }
+        }
+        
+        return formattedHtml || text;
+    }
+
+    // Format Job Market Insights (Feature 3)
+    function formatMarketInsightsResponse(text) {
+        // Handle simple chat responses without structure
+        if (!text.includes('Current Demand') && !text.includes('Salary Range') && !text.includes('Growth Outlook')) {
+            return text;
+        }
+        
+        // Format numbered sections
+        text = text.replace(/1\.\s*Current Demand:/g, '<strong>1. Current Demand:</strong>');
+        text = text.replace(/2\.\s*Salary Range:/g, '<strong>2. Salary Range:</strong>');
+        text = text.replace(/3\.\s*Growth Outlook:/g, '<strong>3. Growth Outlook:</strong>');
+        text = text.replace(/4\.\s*Key Skills:/g, '<strong>4. Key Skills:</strong>');
+        text = text.replace(/5\.\s*Quick Tip:/g, '<strong>5. Quick Tip:</strong>');
+        
+        // Add bullet points to key skills
+        const sections = text.split('<strong>');
+        let formattedHtml = '';
+        
+        for (let i = 0; i < sections.length; i++) {
+            if (sections[i].trim() === '') continue;
+            
+            if (i > 0) {
+                formattedHtml += '<div class="response-section"><strong>' + sections[i];
+                
+                // Add bullet points to Key Skills
+                if (sections[i].includes('4. Key Skills:')) {
+                    // Get content after the header
+                    let sectionContent = sections[i].split('</strong>')[1];
+                    let endOfSection = sectionContent.indexOf('<strong>');
+                    
+                    if (endOfSection !== -1) {
+                        sectionContent = sectionContent.substring(0, endOfSection);
+                    }
+                    
+                    // Convert comma-separated list to bullet points
+                    let skills = sectionContent.split(/[,\n]/).filter(item => item.trim().length > 0);
+                    
+                    // Create HTML bullet list
+                    let bulletListHtml = '</strong><ul>';
+                    skills.forEach(skill => {
+                        bulletListHtml += `<li>${skill.trim()}</li>`;
+                    });
+                    bulletListHtml += '</ul>';
+                    
+                    // Replace content with formatted HTML
+                    if (endOfSection !== -1) {
+                        formattedHtml = formattedHtml.replace(sectionContent, bulletListHtml + '<strong>');
+                    } else {
+                        formattedHtml = formattedHtml.replace(sectionContent, bulletListHtml);
+                    }
+                }
+                
+                if (!sections[i].includes('4. Key Skills:')) {
+                    formattedHtml += '</div>';
+                }
+            }
+        }
+        
+        return formattedHtml || text;
+    }
+
+   // For Feature 4: College/Major Advice
+function formatCollegeAdviceResponse(text) {
+    // Handle simple chat responses without structure
+    if (!text.includes('Top 3 Career Paths') && !text.includes('Required Skills') && !text.includes('Entry Requirements')) {
+        return text;
+    }
+    
+    // First, ensure consistent formatting - add numbering if missing
+    if (!text.match(/1\.\s*Top 3 Career Paths:/)) {
+        text = text.replace(/Top 3 Career Paths:/g, '1. Top 3 Career Paths:');
+    }
+    if (!text.match(/2\.\s*Required Skills:/)) {
+        text = text.replace(/Required Skills:/g, '2. Required Skills:');
+    }
+    if (!text.match(/3\.\s*Entry Requirements:/)) {
+        text = text.replace(/Entry Requirements:/g, '3. Entry Requirements:');
+    }
+    if (!text.match(/4\.\s*Quick Advice:/)) {
+        text = text.replace(/Quick Advice:/g, '4. Quick Advice:');
+    }
+    
+    // Format numbered sections
+    text = text.replace(/1\.\s*Top 3 Career Paths:/g, '<strong>1. Top 3 Career Paths:</strong>');
+    text = text.replace(/2\.\s*Required Skills:/g, '<strong>2. Required Skills:</strong>');
+    text = text.replace(/3\.\s*Entry Requirements:/g, '<strong>3. Entry Requirements:</strong>');
+    text = text.replace(/4\.\s*Quick Advice:/g, '<strong>4. Quick Advice:</strong>');
+    
+    // Add bullet points to career paths and skills
+    const sections = text.split('<strong>');
+    let formattedHtml = '';
+    
+    for (let i = 0; i < sections.length; i++) {
+        if (sections[i].trim() === '') continue;
+        
+        if (i > 0) {
+            formattedHtml += '<div class="response-section"><strong>' + sections[i];
+            
+            // Add bullet points to Career Paths and Required Skills
+            if (sections[i].includes('1. Top 3 Career Paths:') || sections[i].includes('2. Required Skills:')) {
+                // Get content after the header
+                let sectionContent = sections[i].split('</strong>')[1];
+                let endOfSection = sectionContent.indexOf('<strong>');
+                
+                if (endOfSection !== -1) {
+                    sectionContent = sectionContent.substring(0, endOfSection);
+                }
+                
+                // Convert lines or commas to bullet points
+                let items = sectionContent.split(/[,\n]/).filter(item => item.trim().length > 0);
+                
+                // Create HTML bullet list
+                let bulletListHtml = '</strong><ul>';
+                items.forEach(item => {
+                    bulletListHtml += `<li>${item.trim()}</li>`;
+                });
+                bulletListHtml += '</ul>';
+                
+                // Replace content with formatted HTML
+                if (endOfSection !== -1) {
+                    formattedHtml = formattedHtml.replace(sectionContent, bulletListHtml + '<strong>');
+                } else {
+                    formattedHtml = formattedHtml.replace(sectionContent, bulletListHtml);
+                }
+            }
+            
+            if (!sections[i].includes('1. Top 3 Career Paths:') && !sections[i].includes('2. Required Skills:')) {
+                formattedHtml += '</div>';
+            }
+        }
+    }
+    
+    return formattedHtml || text;
+}
+
+    // Format Interview Tips (Feature 5)
+    function formatInterviewTipsResponse(text) {
+        // Handle simple chat responses without structure
+        if (!text.includes('Key Skills to Highlight') && !text.includes('Common Questions') && !text.includes('Preparation Strategy')) {
+            return text;
+        }
+        
+        // Format numbered sections
+        text = text.replace(/1\.\s*Key Skills to Highlight:/g, '<strong>1. Key Skills to Highlight:</strong>');
+        text = text.replace(/2\.\s*Common Questions:/g, '<strong>2. Common Questions:</strong>');
+        text = text.replace(/3\.\s*Preparation Strategy:/g, '<strong>3. Preparation Strategy:</strong>');
+        text = text.replace(/4\.\s*Quick Tip:/g, '<strong>4. Quick Tip:</strong>');
+        
+        // Add bullet points to skills and questions
+        const sections = text.split('<strong>');
+        let formattedHtml = '';
+        
+        for (let i = 0; i < sections.length; i++) {
+            if (sections[i].trim() === '') continue;
+            
+            if (i > 0) {
+                formattedHtml += '<div class="response-section"><strong>' + sections[i];
+                
+                // Add bullet points to Skills and Questions
+                if (sections[i].includes('1. Key Skills to Highlight:') || sections[i].includes('2. Common Questions:')) {
+                    // Get content after the header
+                    let sectionContent = sections[i].split('</strong>')[1];
+                    let endOfSection = sectionContent.indexOf('<strong>');
+                    
+                    if (endOfSection !== -1) {
+                        sectionContent = sectionContent.substring(0, endOfSection);
+                    }
+                    
+                    // Convert lines or commas to bullet points
+                    let items = sectionContent.split(/[,\n]/).filter(item => item.trim().length > 0);
+                    
+                    // Create HTML bullet list
+                    let bulletListHtml = '</strong><ul>';
+                    items.forEach(item => {
+                        bulletListHtml += `<li>${item.trim()}</li>`;
+                    });
+                    bulletListHtml += '</ul>';
+                    
+                    // Replace content with formatted HTML
+                    if (endOfSection !== -1) {
+                        formattedHtml = formattedHtml.replace(sectionContent, bulletListHtml + '<strong>');
+                    } else {
+                        formattedHtml = formattedHtml.replace(sectionContent, bulletListHtml);
+                    }
+                }
+                
+                if (!sections[i].includes('1. Key Skills to Highlight:') && !sections[i].includes('2. Common Questions:')) {
+                    formattedHtml += '</div>';
+                }
+            }
+        }
+        
+        return formattedHtml || text;
+    }
+
+    // Load chat history when a feature is selected
+    function loadChatHistory(featureId) {
+        $.ajax({
+            url: '/get_chat_history',
+            method: 'POST',
+            data: { feature_id: featureId },
+            success: function(response) {
+                renderChatMessages(featureId, response.chat_history);
+                
+                // Show chat container if there's history
+                if (response.chat_history && response.chat_history.length > 0) {
+                    $(`#chat-feature-${featureId}`).show();
+                }
+            }
+        });
+    }
+
+    // Feature selection
+    $('.feature-card').on('click', function() {
+        const featureId = $(this).data('feature');
+        $('.feature-content').hide();
+        $(`#feature-${featureId}`).show();
+        $('.feature-card').removeClass('active');
+        $(this).addClass('active');
+        
+        // Load chat history for this feature
+        loadChatHistory(featureId);
+    });
+
+    // Show loading animation in chat
+    function showChatLoading(featureId) {
+        const chatMessages = $(`#chat-messages-${featureId}`);
+        chatMessages.append(`
+            <div class="message-loading" id="loading-indicator-${featureId}">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        `);
+        chatMessages.scrollTop(chatMessages[0].scrollHeight);
+    }
+
+    // Remove loading animation
+    function removeChatLoading(featureId) {
+        $(`#loading-indicator-${featureId}`).remove();
+    }
+
+    // Function to show loading state
+    function showLoading(button) {
+        const originalText = button.text();
+        button.attr('disabled', true).text('Loading...');
+        return originalText;
+    }
+
+    // Function to restore button state
+    function restoreButton(button, originalText) {
+        button.attr('disabled', false).text(originalText);
+    }
+
+    // General chat function for all features
+    function sendChat(featureId) {
+        const inputField = $(`#chat-input-${featureId}`);
+        const message = inputField.val().trim();
+        
+        if (!message) return;
+        
+        // Clear input
+        inputField.val('');
+        
+        // Show loading animation
+        showChatLoading(featureId);
+        
+        // Send message to server
+        $.ajax({
+            url: '/chat',
+            method: 'POST',
+            data: {
+                feature_id: featureId,
+                message: message
+            },
+            success: function(response) {
+                // Remove loading animation
+                removeChatLoading(featureId);
+                
+                // Update chat with new messages
+                renderChatMessages(featureId, response.chat_history);
+                
+                // Ensure chat container is visible
+                $(`#chat-feature-${featureId}`).show();
+            },
+            error: function() {
+                removeChatLoading(featureId);
+                alert('Error sending message. Please try again.');
+            }
+        });
+    }
+
+    // Set up chat send buttons for all features
+    for (let i = 1; i <= 5; i++) {
+        $(`#chat-send-${i}`).on('click', function() {
+            sendChat(i);
+        });
+        
+        $(`#chat-input-${i}`).on('keypress', function(e) {
+            if (e.which === 13) { // Enter key
+                sendChat(i);
+            }
+        });
+    }
+
+    // Clear chat history
+    $('.clear-chat').on('click', function() {
+        const featureId = $(this).data('feature');
+        
+        $.ajax({
+            url: '/clear_chat',
+            method: 'POST',
+            data: { feature_id: featureId },
+            success: function() {
+                $(`#chat-messages-${featureId}`).empty();
+                $(`#chat-feature-${featureId}`).hide();
+            }
+        });
+    });
+
+    // Feature 1: Get career suggestions
+    $('#get-careers').on('click', function() {
+        const interest = $('#interest').val();
+        if (!interest) {
+            alert('Please enter your interests or strengths.');
+            return;
+        }
+
+        const originalText = showLoading($(this));
+
+        $.ajax({
+            url: '/get_careers',
+            method: 'POST',
+            data: { interest: interest },
+            success: function(response) {
+                $('#career-results').show();
+                $('.suggestions-list').empty();
+
+                // If insights is just a string from Groq (e.g., "Software Engineer, UI/UX Designer, Data Analyst")
+                const jobs = response.insights.split(/[,•\n]/).map(j => j.trim()).filter(Boolean);
+                jobs.forEach(function(job) {
+                    $('.suggestions-list').append(`<li>${job}</li>`);
+                });
+
+                // Restore button state
+                restoreButton($('#get-careers'), originalText);
+
+                // Update chat history
+                renderChatMessages('1', response.chat_history);
+            },
+            error: function() {
+                restoreButton($('#get-careers'), originalText);
+                alert('❌ Failed to fetch career suggestions.');
+            }
+        });
+    });
+
+    $('#get-ai-advice').on('click', function() {
+        const interest = $('#interest').val();
+        if (!interest) {
+            alert('Please enter your interests or strengths first.');
+            return;
+        }
+
+        const originalText = showLoading($(this));
+
+        $.ajax({
+            url: '/get_ai_advice',
+            method: 'POST',
+            data: { interest: interest },
+            success: function(response) {
+                let advice = response.advice;
+                
+                // Format the advice with proper HTML structure
+                let formatted = formatCareerPathResponse(advice);
+                
+                // If formatting didn't work, use a simpler fallback
+                if (formatted === advice) {
+                    formatted = `<div class="ai-response">${advice.replace(/\n/g, '<br>')}</div>`;
+                } else {
+                    formatted = `<div class="ai-response">${formatted}</div>`;
+                }
+
+                $('.ai-advice').html(formatted);
+                restoreButton($('#get-ai-advice'), originalText);
+
+                // Show chat container
+                $('#chat-feature-1').show();
+
+                // Update chat with history
+                renderChatMessages('1', response.chat_history);
+            },
+            error: function() {
+                restoreButton($('#get-ai-advice'), originalText);
+                alert('❌ Failed to fetch advice.');
+            }
+        });
+    });
+
+    // Feature 2: Resume feedback
+    $('#resume-file').on('change', function() {
+        const fileName = $(this)[0].files[0]?.name || 'No file selected';
+        $('#file-name').text(fileName);
+        
+        // If a file is selected, you might want to clear the textarea to avoid confusion
+        if ($(this)[0].files[0]) {
+            $('#resume').val('');
+        }
+    });
+
+    $('#get-resume-feedback').on('click', function() {
+        const resumeText = $('#resume').val();
+        const resumeFile = $('#resume-file')[0].files[0];
+        
+        if (!resumeText && !resumeFile) {
+            alert('Please paste your resume text or upload a file.');
+            return;
+        }
+
+        const originalText = showLoading($(this));
+        
+        const formData = new FormData();
+        if (resumeText) {
+            formData.append('resume_text', resumeText);
+        }
+        if (resumeFile) {
+            formData.append('resume_file', resumeFile);
+        }
+
+        $.ajax({
+            url: '/get_resume_feedback',
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                $('#resume-results').show();
+                
+                // Apply formatting to the feedback
+                let formatted = formatResumeFeedbackResponse(response.feedback);
+                
+                // If formatting didn't work, use a simpler fallback
+                if (formatted === response.feedback) {
+                    formatted = `<div class="ai-response"><p>🤖 ${response.feedback.replace(/\n/g, '<br>')}</p></div>`;
+                } else {
+                    formatted = `<div class="ai-response"><p>🤖</p>${formatted}</div>`;
+                }
+                
+                $('.feedback-text').html(formatted);
+                restoreButton($('#get-resume-feedback'), originalText);
+                
+                // Show chat container
+                $('#chat-feature-2').show();
+                
+                // Update chat with history
+                renderChatMessages('2', response.chat_history);
+            },
+            error: function(xhr, status, error) {
+                $('#resume-results').show();
+                $('.feedback-text').html(`<div class="ai-response error"><p>❌ Error: Could not process request. Please try again.</p></div>`);
+                restoreButton($('#get-resume-feedback'), originalText);
+                console.error("AJAX Error:", error);
+            }
+        });
+    });
+
+    // Feature 3: Job market insights
+    $('#get-market-insights').on('click', function() {
+        const topic = $('#market-topic').val();
+        if (!topic) {
+            alert('Please enter a job market topic.');
+            return;
+        }
+
+        const originalText = showLoading($(this));
+
+        $.ajax({
+            url: '/get_market_insights',
+            method: 'POST',
+            data: { topic: topic },
+            success: function(response) {
+                $('#market-results').show();
+                
+                // Apply formatting to the insights
+                let formatted = formatMarketInsightsResponse(response.insights);
+                
+                // If formatting didn't work, use a simpler fallback
+                if (formatted === response.insights) {
+                    formatted = `<div class="ai-response"><p>🤖 ${response.insights.replace(/\n/g, '<br>')}</p></div>`;
+                } else {
+                    formatted = `<div class="ai-response"><p>🤖</p>${formatted}</div>`;
+                }
+                
+                $('.insights-text').html(formatted);
+                restoreButton($('#get-market-insights'), originalText);
+                
+                // Show chat container
+                $('#chat-feature-3').show();
+                
+                // Update chat with history
+                renderChatMessages('3', response.chat_history);
+            }
+        });
+    });
+
+    // Feature 4: College/major advice
+    $('#get-college-advice').on('click', function() {
+        const major = $('#major').val();
+        if (!major) {
+            alert('Please enter a major.');
+            return;
+        }
+
+        const originalText = showLoading($(this));
+
+        $.ajax({
+            url: '/get_college_advice',
+            method: 'POST',
+            data: { major: major },
+            success: function(response) {
+                $('#college-results').show();
+                
+                // Apply formatting to the advice
+                let formatted = formatCollegeAdviceResponse(response.advice);
+                
+                // If formatting didn't work, use a simpler fallback
+                if (formatted === response.advice) {
+                    formatted = `<div class="ai-response"><p>🤖 ${response.advice.replace(/\n/g, '<br>')}</p></div>`;
+                } else {
+                    formatted = `<div class="ai-response"><p>🤖</p>${formatted}</div>`;
+                }
+                
+                $('.college-advice-text').html(formatted);
+                restoreButton($('#get-college-advice'), originalText);
+                
+                // Show chat container
+                $('#chat-feature-4').show();
+                
+                // Update chat with history
+                renderChatMessages('4', response.chat_history);
+            }
+        });
+    });
+
+    // Feature 5: Interview tips
+    $('#get-interview-tips').on('click', function() {
+        const role = $('#role').val();
+        if (!role) {
+            alert('Please enter a role.');
+            return;
+        }
+
+        const originalText = showLoading($(this));
+
+        $.ajax({
+            url: '/get_interview_tips',
+            method: 'POST',
+            data: { role: role },
+            success: function(response) {
+                $('#interview-results').show();
+                
+                // Apply formatting to the tips
+                let formatted = formatInterviewTipsResponse(response.tips);
+                
+                // If formatting didn't work, use a simpler fallback
+                if (formatted === response.tips) {
+                    formatted = `<div class="ai-response"><p>🤖 ${response.tips.replace(/\n/g, '<br>')}</p></div>`;
+                } else {
+                    formatted = `<div class="ai-response"><p>🤖</p>${formatted}</div>`;
+                }
+                
+                $('.interview-tips-text').html(formatted);
+                restoreButton($('#get-interview-tips'), originalText);
+                
+                // Show chat container
+                $('#chat-feature-5').show();
+                
+                // Update chat with history
+                renderChatMessages('5', response.chat_history);
+            }
+        });
+    });
+    
+    // Select the first feature by default
+    $('.feature-card').first().click();
+});
+    </script>
+</body>
+</html>

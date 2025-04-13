@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}CareerBot - Shape Your Future with AI Career Guidance{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <h1>Shape Your Future Career with AI Guidance</h1>
+        <p>CareerBot helps you navigate your professional journey with personalized advice, insights, and resources powered by advanced AI.</p>
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('dashboard') }}" class="btn btn-light btn-cta">Go to Dashboard</a>
+        {% else %}
+        <a href="{{ url_for('career_bot') }}" class="btn btn-light btn-cta">Try CareerBot Now</a>
+        {% endif %}
+    </div>
+</section>
+
+<div class="container">
+    <!-- Features Section -->
+    <section class="mb-5">
+        <h2 class="text-center mb-4">How CareerBot Can Help You</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon mb-3">🚀</div>
+                        <h5 class="card-title">Career Path Guidance</h5>
+                        <p class="card-text">Discover tailored career paths based on your skills, interests, and goals. Get actionable advice on how to advance.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon mb-3">📝</div>
+                        <h5 class="card-title">Resume Feedback</h5>
+                        <p class="card-text">Get professional feedback on your resume with specific improvement suggestions and ATS optimization tips.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon mb-3">🗣️</div>
+                        <h5 class="card-title">Interview Preparation</h5>
+                        <p class="card-text">Prepare for interviews with industry-specific questions, tips, and strategies to help you stand out.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="mb-5">
+        <h2 class="text-center mb-4">How It Works</h2>
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="card border-0 bg-light p-4">
+                    <div class="row g-0">
+                        <div class="col-2 text-center">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">1</div>
+                        </div>
+                        <div class="col-10">
+                            <div class="card-body p-0 ps-3">
+                                <h5 class="card-title">Choose a Career Topic</h5>
+                                <p class="card-text">Select from five different career guidance areas based on what you need help with.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card border-0 bg-light p-4 mt-3">
+                    <div class="row g-0">
+                        <div class="col-2 text-center">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">2</div>
+                        </div>
+                        <div class="col-10">
+                            <div class="card-body p-0 ps-3">
+                                <h5 class="card-title">Ask Your Questions</h5>
+                                <p class="card-text">Provide information about your interests, resume, or specific career questions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card border-0 bg-light p-4 mt-3">
+                    <div class="row g-0">
+                        <div class="col-2 text-center">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">3</div>
+                        </div>
+                        <div class="col-10">
+                            <div class="card-body p-0 ps-3">
+                                <h5 class="card-title">Get Personalized Advice</h5>
+                                <p class="card-text">Receive AI-powered insights and continue the conversation to explore more details.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="text-center">
+                    <div class="chat-illustration p-4 bg-light rounded-4">
+                        <div class="chat-message assistant-message mb-3" style="align-self: flex-start; max-width: 80%;">
+                            <p>Hi! I'm CareerBot. How can I help with your career journey today?</p>
+                        </div>
+                        <div class="chat-message user-message mb-3" style="align-self: flex-end; max-width: 80%;">
+                            <p>I'm interested in data science careers. What should I focus on?</p>
+                        </div>
+                        <div class="chat-message assistant-message" style="align-self: flex-start; max-width: 80%;">
+                            <p>Great choice! For data science, focus on:</p>
+                            <ul>
+                                <li>Python and R programming</li>
+                                <li>Statistics and mathematics</li>
+                                <li>Machine learning fundamentals</li>
+                                <li>Data visualization skills</li>
+                            </ul>
+                            <p>Would you like specific resource recommendations?</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section text-center p-5 mb-5 bg-light rounded-4">
+        <h2 class="mb-3">Start Your Career Journey Today</h2>
+        <p class="mb-4">Create a free account to save insights, track your progress, and get personalized career guidance.</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            {% if current_user.is_authenticated %}
+            <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg">Go to Dashboard</a>
+            {% else %}
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">Sign Up Free</a>
+            <a href="{{ url_for('career_bot') }}" class="btn btn-outline-primary btn-lg">Try Without Account</a>
+            {% endif %}
+        </div>
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block title %}CareerBot - Your AI Career Advisor{% endblock %}
+
+{% block content %}
+<div class="container">
+    <header class="text-center py-5">
+        <h1>👋 Welcome to CareerBot!</h1>
+        <p>Let's shape your future together</p>
+    </header>
+
+    <div class="features-container">
+        <h2>🔍 What would you like help with?</h2>
+        <div class="features">
+            {% for key, value in features.items() %}
+            <div class="feature-card" data-feature="{{ key }}">
+                <div class="feature-icon">
+                    {% if key == "1" %}🚀
+                    {% elif key == "2" %}📝
+                    {% elif key == "3" %}📊
+                    {% elif key == "4" %}🎓
+                    {% elif key == "5" %}🗣️
+                    
+                    {% endif %}
+                </div>
+                <div class="feature-text">{{ value }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="content-area">
+        <!-- Feature 1: Career path suggestions -->
+        <div class="feature-content" id="feature-1">
+            <h3>Career Path Suggestions</h3>
+            <div class="input-group">
+                <label for="interest">What are your interests or strengths?</label>
+                <input type="text" id="interest" placeholder="e.g., coding, design, analytics">
+                <button id="get-careers" class="btn btn-primary">Get Suggestions</button>
+            </div>
+            <div class="result-box" id="career-results">
+                <h4>🔍 Based on your interest, here are some roles to explore:</h4>
+                <ul class="suggestions-list"></ul>
+                <button id="get-ai-advice" class="secondary-button">Get AI Advice</button>
+                <div class="ai-advice"></div>
+            </div>
+            
+            <!-- Chat interface for continuous conversation -->
+            <div class="chat-container" style="display:none;" id="chat-feature-1">
+                <div class="chat-messages" id="chat-messages-1"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input-1" placeholder="Ask more about career paths...">
+                    <button id="chat-send-1" class="btn btn-primary">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature 2: Resume/CV feedback -->
+        <div class="feature-content" id="feature-2">
+            <h3>Resume/CV Feedback</h3>
+            <div class="input-group">
+                <label for="resume">Paste your resume text or upload a file:</label>
+                <textarea id="resume" placeholder="Paste your resume here..."></textarea>
+                <div class="file-upload">
+                    <label for="resume-file" class="file-label">Upload Resume</label>
+                    <input type="file" id="resume-file" accept=".txt,.doc,.docx,.pdf">
+                    <span id="file-name">No file selected</span>
+                </div>
+                <button id="get-resume-feedback" class="btn btn-primary">Get Feedback</button>
+            </div>
+            <div class="result-box" id="resume-results">
+                <h4>✍️ Resume Feedback:</h4>
+                <div class="feedback-text"></div>
+            </div>
+            
+            <!-- Chat interface for continuous conversation -->
+            <div class="chat-container" style="display:none;" id="chat-feature-2">
+                <div class="chat-messages" id="chat-messages-2"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input-2" placeholder="Ask more about your resume...">
+                    <button id="chat-send-2" class="btn btn-primary">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature 3: Job market insights -->
+        <div class="feature-content" id="feature-3">
+            <h3>Job Market Insights</h3>
+            <div class="input-group">
+                <label for="market-topic">What job market topic are you curious about?</label>
+                <input type="text" id="market-topic" placeholder="e.g., tech trends, remote jobs">
+                <button id="get-market-insights" class="btn btn-primary">Get Insights</button>
+            </div>
+            <div class="result-box" id="market-results">
+                <h4>📈 Market Insight:</h4>
+                <div class="insights-text"></div>
+            </div>
+            
+            <!-- Chat interface for continuous conversation -->
+            <div class="chat-container" style="display:none;" id="chat-feature-3">
+                <div class="chat-messages" id="chat-messages-3"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input-3" placeholder="Ask more about job market...">
+                    <button id="chat-send-3" class="btn btn-primary">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature 4: College/major advice -->
+        <div class="feature-content" id="feature-4">
+            <h3>College/Major Advice</h3>
+            <div class="input-group">
+                <label for="major">What majors are you considering or already studying?</label>
+                <input type="text" id="major" placeholder="e.g., Computer Science, Psychology">
+                <button id="get-college-advice" class="btn btn-primary">Get Advice</button>
+            </div>
+            <div class="result-box" id="college-results">
+                <h4>🎓 Advice:</h4>
+                <div class="college-advice-text"></div>
+            </div>
+            
+            <!-- Chat interface for continuous conversation -->
+            <div class="chat-container" style="display:none;" id="chat-feature-4">
+                <div class="chat-messages" id="chat-messages-4"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input-4" placeholder="Ask more about college majors...">
+                    <button id="chat-send-4" class="btn btn-primary">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature 5: Interview preparation tips -->
+        <div class="feature-content" id="feature-5">
+            <h3>Interview Preparation Tips</h3>
+            <div class="input-group">
+                <label for="role">What role are you preparing for?</label>
+                <input type="text" id="role" placeholder="e.g., Software Engineer, Marketing Manager">
+                <button id="get-interview-tips" class="btn btn-primary">Get Tips</button>
+            </div>
+            <div class="result-box" id="interview-results">
+                <h4>🗣️ Interview Tips:</h4>
+                <div class="interview-tips-text"></div>
+            </div>
+            
+            <!-- Chat interface for continuous conversation -->
+            <div class="chat-container" style="display:none;" id="chat-feature-5">
+                <div class="chat-messages" id="chat-messages-5"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input-5" placeholder="Ask more about interview prep...">
+                    <button id="chat-send-5" class="btn btn-primary">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Save Response Modal (for logged in users) -->
+{% if current_user.is_authenticated %}
+<div class="modal fade save-response-modal" id="saveResponseModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Save this response</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="save-response-form">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="response-title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="response-title" required>
+                    </div>
+                    <input type="hidden" id="response-feature-id">
+                    <input type="hidden" id="response-content">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Response</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

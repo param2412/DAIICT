@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - CareerBot{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="m-0">Your Profile</h4>
+                </div>
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <div class="profile-avatar mx-auto mb-3" style="width: 100px; height: 100px; font-size: 3rem;">
+                            {{ current_user.username[0].upper() }}
+                        </div>
+                        <h3>{{ current_user.username }}</h3>
+                        <p class="text-muted">Member since {{ current_user.created_at.strftime('%b %d, %Y') }}</p>
+                    </div>
+                
+                    <form method="POST" action="{{ url_for('auth.update_profile') }}" id="profile-form">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" value="{{ current_user.username }}">
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" value="{{ current_user.email }}">
+                            </div>
+                        </div>
+                        
+                        <hr class="my-4">
+                        <h5 class="mb-3">Change Password</h5>
+                        
+                        <div class="mb-3">
+                            <label for="current_password" class="form-label">Current Password</label>
+                            <input type="password" class="form-control" id="current_password" name="current_password" placeholder="Enter your current password">
+                            <div class="form-text">Leave password fields empty if you don't want to change it</div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="new_password" class="form-label">New Password</label>
+                                <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Enter a new password">
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="confirm_password" class="form-label">Confirm New Password</label>
+                                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm your new password">
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary py-2">Update Profile</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-header bg-light">
+                    <h5 class="m-0">Account Statistics</h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="fas fa-save fa-2x text-primary mb-2"></i>
+                                <h4>{{ current_user.saved_responses.count() }}</h4>
+                                <p class="text-muted">Saved Responses</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="fas fa-comment-dots fa-2x text-success mb-2"></i>
+                                <h4>{{ current_user.chat_history.count() }}</h4>
+                                <p class="text-muted">Chat Messages</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="fas fa-calendar-check fa-2x text-info mb-2"></i>
+                                <h4>{{ current_user.last_login.strftime('%b %d') if current_user.last_login else 'Today' }}</h4>
+                                <p class="text-muted">Last Login</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Add profile-specific JavaScript here -->
+{% endblock %}
